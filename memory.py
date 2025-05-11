@@ -5,6 +5,7 @@ class Memory:
         self.num_banks = len(rom) // 0x4000
         self.current_bank = 1
         self.ram_enabled = False
+        self.serial_buffer = []
         
         # full 64KB address space0
         self.mem = [0] * 0x10000
@@ -29,6 +30,18 @@ class Memory:
         return self.mem[addr]
     
     def write_byte(self, addr, value):
+        # catch writes to the Game Boy serial data register
+        if addr == 0xFF01:
+            # value is an ascii code
+            char = chr(value)
+            print(char, end="", flush=True)
+            self.serial_buffer.append(char)
+            return
+        # stop early if tests passed
+        if "".join(self.serial_buffer).endswith("Passed"):
+            print("All CPU tests passed")
+            exit(0)
+        
         # ---- MBC1 control registers ----
         if 0x0000 <= addr <= 0x1fff:
             # RAM enable (for catridges with external save RAM)

@@ -7,11 +7,8 @@ def main():
     memory = Memory(rom)
     cpu = CPU(memory)
     
-    while True:
-        pc, curr_inst = cpu.step()
-        if curr_inst not in cpu.known_opcodes:
-            print(f"Unknown opcode {hex(curr_inst)} at {hex(pc-1)} – stopping.")
-            break
+    while cpu.step():
+        pass
         # TODO: update graphics, handle input, audio, etc.
         
 if __name__ == "__main__":
