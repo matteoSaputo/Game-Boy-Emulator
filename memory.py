@@ -7,11 +7,11 @@ class Memory:
         self.ram_enabled = False
         self.serial_buffer = []
         
-        # full 64KB address space0
+        # full 64KB address space
         self.mem = [0] * 0x10000
         
         # map fixed bank 0
-        self.mem[0x0000:0x4000] = list(self.rom[0x0000:0x40000])
+        self.mem[0x0000:0x4000] = list(self.rom[0x0000:0x4000])
         # map bank 1
         self.map_bank(self.current_bank)
         
