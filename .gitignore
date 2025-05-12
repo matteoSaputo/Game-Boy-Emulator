@@ -1,7 +1,7 @@
 # game boy roms
-*.gb
-*.gbc
-*.gba
+# *.gb
+# *.gbc
+# *.gba
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
