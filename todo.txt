@@ -1,0 +1,44 @@
+Categories to Implement
+Work through each group in order, writing handlers and unit‑tests as you go:
+
+Data movement
+
+- NOP (0x00)
+
+- 16‑bit immediate loads: LD BC,d16, LD DE,d16, LD HL,d16, LD SP,d16
+
+- 8‑bit loads: LD r,r′, LD r,d8, LD (HL±),A, LD A,(HL±)
+
+Arithmetic & logic
+
+- INC r, DEC r
+
+- ADD A,r, ADD A,d8, ADC A,r/d8
+
+- SUB A,r, SBC A,r/d8
+
+- AND r/d8, OR r/d8, XOR r/d8, CP r/d8
+
+16‑bit arithmetic
+
+- INC rr, DEC rr, ADD HL,rr
+
+Control‑flow
+
+- JP, JR (conditional & unconditional)
+
+- CALL, RET (conditional & unconditional)
+
+- RST, RETI
+
+CB‑prefixed bit ops
+
+- Rotates/shifts (RLC, RL, SLA, SRL, RR, SRA)
+
+- Bit‑test/set/reset (BIT, SET, RES)
+    
+Miscellaneous
+
+- DAA, CPL
+
+- EI/DI, HALT, STOP
