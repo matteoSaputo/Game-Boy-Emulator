@@ -1,17 +1,17 @@
-ZFLAG, NFLAG, HFLAG, CFLAG = 0x80, 0x40, 0x20, 0x10
+from instructions.data_movement import code_map as dm_map
+from flags import ZFLAG, NFLAG, HFLAG, CFLAG
 
 class CPU:
     def __init__(self, memory):
         self.memory = memory
         self.cycles = 0 # total T-states
-        self.instruction_set = {
-            0x00: self.op_nop,
-            0x01: self.op_ld_bc_d16,
-            0x02: self.op_ld_bc_ptr_a
-        }
-        self.cb_instruction_set = {
 
-        }
+        self.instruction_set = {}
+        # for m in (dm_map):
+        self.instruction_set.update(dm_map)
+
+        self.cb_instruction_set = {}
+        
         self.registers = {
             'A': 0x01, 'F': 0xB0, # accumulator and flags
             'B': 0x00, 'C': 0x13,
@@ -38,7 +38,7 @@ class CPU:
                 return False
 
         # --- Execute instruction ---
-        cycles = handler(pc) # call the handler which should update regs, mem, pc, and return # of cycles
+        cycles = handler(self, pc) # call the handler which should update regs, mem, pc, and return # of cycles
         self.cycles += cycles
 
         return True
@@ -76,41 +76,7 @@ class CPU:
     
     def move_pc(self, addr):
         self.registers['PC'] = addr
-    
-    # --- Data movement ---
-    def op_nop(self, pc):
-        # NOP, one byte long, 4 cycles
-        self.increment_pc(1)
-        return 4
-    
-    def op_ld_bc_d16(self, pc):
-        # read two immediate bytes (little-endian)
-        lo = self.memory.read_byte((pc + 1) & 0xFFFF)
-        hi = self.memory.read_byte((pc + 2) & 0xFFFF)
-        value = (hi << 8) | lo
-        
-        # store into BC register pair
-        self.registers['B'] = (value >> 8) & 0xFF
-        self.registers['C'] = value & 0xFF
-        
-        # advance PC past opcode + two data bytes
-        self.increment_pc(3)
-        return 12
-    
-    def op_ld_bc_ptr_a(self, pc):
-        #compute address from BC pair
-        addr = (self.registers['B'] << 8) | self.registers['C']
-        #write A into [BC]
-        self.memory.write_byte(addr, self.registers['A'])
-        
-        self.increment_pc(1)
-        return 8
-    
-    # --- Arithmetic and Logic ---
-
-    # --- 16-bit Arithmetic ---
-
-    # --- Control-flow ---
+           
 
     # --- CB-prefixed bit ops ---
 
